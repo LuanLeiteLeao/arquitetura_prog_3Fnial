@@ -87,8 +87,8 @@ public class Games extends Tabela<Integer> {
 	@Override
 	public List<Object> getCamposValor() {
 		List<Object> list = new ArrayList<>();
-
-		list.add(getPk());
+		
+		list.add(getNomePk());
 		list.add(getNome());
 		list.add(getDescricao());
 		list.add(getDataLancamento());

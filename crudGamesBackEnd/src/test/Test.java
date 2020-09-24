@@ -13,6 +13,9 @@ import java.util.GregorianCalendar;
 import java.util.Date;
 
 import model.DAOGeneric;
+import model.Tabela;
+import test.model.Games;
+import test.model.GamesHasPlataformas;
 import test.model.Plataformas;
 
 public class Test {
@@ -22,8 +25,25 @@ public class Test {
 		Plataformas plataforma = new Plataformas();
 		DAOGeneric dao = new DAOGeneric();
 
-		t.inserirPlataforma(plataforma, dao);
+//		t.inserirPlataforma(plataforma, dao);
 //		t.listarPlataforma(plataforma, dao);
+
+//Listar games has paltaforma		
+// ArrayList<GamesHasPlataformas> list = dao.listar(new GamesHasPlataformas());
+// for (GamesHasPlataformas gamesHasPlataformas : list) {
+//	System.out.println(gamesHasPlataformas.getGamesId()+" , "+gamesHasPlataformas.getPlataformasId());
+//}
+		
+		
+ 
+		 Games g = new Games();
+		 g.setPk(2);
+		
+		ArrayList<Tabela<Integer>> lista = dao.listarNparaN(new GamesHasPlataformas(), g,new Plataformas());
+		
+		for (Tabela<Integer> tabela : lista) {
+			System.out.println(tabela.toString());
+		}
 	}
 
 	private void listarPlataforma(Plataformas plataforma, DAOGeneric dao) {

@@ -24,14 +24,13 @@ public class DAOGeneric extends DAOConexao {
 		int columnCount = rs.getMetaData().getColumnCount();
 		for (int i = 1; i <= columnCount; i++) {
 			list.add(rs.getObject(i));
+			
 		}
 		return list;
 	}
 
-	public <T extends Tabela<?>> ArrayList<T> listar(T tabela) {
-//		nao é bom passar *, nao é uma boa pratica
-//		passar a lista de campos, pois aordem de campos pode mudar
-		String sqlSelect = "select * from " + tabela.getNomeTabela();
+	private <T extends Tabela<?>> ArrayList<T> select(String sqlSelect,T tabela) {
+		
 		ArrayList<T> lista = new ArrayList<>();
 		PreparedStatement stmt;
 
@@ -55,6 +54,26 @@ public class DAOGeneric extends DAOConexao {
 		}
 
 		return lista;
+
+	}
+
+	public <T extends Tabela<?>> ArrayList<T> listar(T tabela) {
+//		nao é bom passar *, nao é uma boa pratica
+//		passar a lista de campos, pois aordem de campos pode mudar
+		String sqlSelect = "select * from " + tabela.getNomeTabela();
+		return this.select(sqlSelect, tabela);
+	}
+
+	public <T extends Tabela<?>> ArrayList<T> listarNparaN(T tabelaAuxiliar, T tabelaUm, T tabelaMuitos) {
+		//para que essa metodo funcione e importante que tando 
+		//q id da tabela tenha o mesmo nome quando ele for usando como chave estranfeira
+		String sqlSelect = "SELECT "+getCamposNomeSelect(tabelaMuitos) + " FROM " + tabelaAuxiliar.getNomeTabela() + " INNER JOIN "
+				+ tabelaMuitos.getNomeTabela() + " ON " + tabelaAuxiliar.getNomeTabela() + "." + tabelaMuitos.getNomePk() + " = "
+				+ tabelaMuitos.getNomeTabela() + "." + tabelaMuitos.getNomePk()+ " where " +tabelaUm.getNomePk()+"="+tabelaUm.getPk();;
+		System.out.println(sqlSelect);
+		
+		
+		return this.select(sqlSelect, tabelaMuitos);
 
 	}
 
@@ -107,6 +126,16 @@ public class DAOGeneric extends DAOConexao {
 		return formato;
 	}
 
+	public <T extends Tabela<?>> String getCamposNomeSelect(T lista) {
+		List<String> listcampos = lista.getCamposNome();
+		
+		String campos = new String();
+		for (int i=0;i<listcampos.size(); i++) {
+			campos=campos.concat(listcampos.get(i)+",");
+		}
+		campos=campos.substring(0,campos.length()-1);
+		return campos;
+	}
 	public <T extends Tabela<?>> Mensagem remover(T tabela) {
 		String sqlDelet = "delete from " + tabela.getNomeTabela() + " where " + tabela.getNomePk() + " = "
 				+ tabela.getPk();
@@ -171,11 +200,7 @@ public class DAOGeneric extends DAOConexao {
 			PrepararStatementCampoValor(stmt, tabela);
 
 			// executa
-			 stmt.execute();
-		
-
-
-			
+			stmt.execute();
 
 			System.out.println("Salvo Com Sucesso");
 

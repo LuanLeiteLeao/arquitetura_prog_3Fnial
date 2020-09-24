@@ -43,7 +43,7 @@ public class GamesHasPlataformas extends Tabela<Integer> {
 
 	@Override
 	public Tabela getNovoObjeto() {
-		return null;
+		return new GamesHasPlataformas();
 	}
 
 	@Override

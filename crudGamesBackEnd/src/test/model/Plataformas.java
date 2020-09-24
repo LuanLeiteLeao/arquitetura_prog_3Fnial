@@ -59,7 +59,7 @@ public class Plataformas extends Tabela<Integer> {
 	@Override
 	public List<String> getCamposNome() {
 		List<String> list = new ArrayList<>();
-		list.add("plataformas_id");
+		list.add( getNomeTabela()+"."+getNomePk());
 		list.add("nome");
 		list.add("criacao");
 		list.add("modificacao");
@@ -87,4 +87,13 @@ public class Plataformas extends Tabela<Integer> {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		String campos = "";  
+		for (Object string : getCamposValor()) {
+			campos+= string+"\n";
+		}
+		
+		return campos;
+	}
 }
