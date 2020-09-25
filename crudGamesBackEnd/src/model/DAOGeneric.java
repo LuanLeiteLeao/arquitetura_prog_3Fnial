@@ -45,6 +45,20 @@ public class DAOGeneric extends DAOConexao {
 			while (rs.next()) {
 				T auxTab = (T) tabela.getNovoObjeto();
 				auxTab.setCamposTabela(this.getCamposValores(rs));
+				
+				ArrayList<TabelaNparaN> NparaN = tabela.getTabelasNparaN();
+				if(NparaN!=null) {
+					List<List<Tabela<?>>> matrix = new ArrayList<>();
+					
+					for (TabelaNparaN aux : NparaN) {
+						 List<Tabela<?>> tabelas = listarNparaN( aux.getTabelaAux(), auxTab, aux.getTabelaMuitos());	
+						 matrix.add(tabelas);
+					}
+					
+					auxTab.setCamposTabelasNparaN(matrix);
+					
+				}
+				
 				lista.add(auxTab);
 			}
 
@@ -60,7 +74,7 @@ public class DAOGeneric extends DAOConexao {
 	public <T extends Tabela<?>> ArrayList<T> listar(T tabela) {
 //		nao é bom passar *, nao é uma boa pratica
 //		passar a lista de campos, pois aordem de campos pode mudar
-		String sqlSelect = "select * from " + tabela.getNomeTabela();
+		String sqlSelect = "select "+getCamposNomeSelect(tabela) +" from " + tabela.getNomeTabela();
 		return this.select(sqlSelect, tabela);
 	}
 

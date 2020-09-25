@@ -36,14 +36,29 @@ public class Test {
 		
 		
  
-		 Games g = new Games();
-		 g.setPk(2);
+//		 Games g = new Games();
+//		 g.setPk(2);
+//		
+//		ArrayList<Tabela<Integer>> lista = dao.listarNparaN(new GamesHasPlataformas(), g,new Plataformas());
+//		
+//		for (Tabela<Integer> tabela : lista) {
+//			System.out.println(tabela.toString());
+//		}
 		
-		ArrayList<Tabela<Integer>> lista = dao.listarNparaN(new GamesHasPlataformas(), g,new Plataformas());
 		
-		for (Tabela<Integer> tabela : lista) {
-			System.out.println(tabela.toString());
+
+		
+		ArrayList<Games> lista = dao.listar(new Games());
+		
+		for (Games tabela : lista) {
+			System.out.println(tabela.getPk()+"\n"+tabela.getPlataformas());
 		}
+		
+		
+		
+		
+		
+		
 	}
 
 	private void listarPlataforma(Plataformas plataforma, DAOGeneric dao) {

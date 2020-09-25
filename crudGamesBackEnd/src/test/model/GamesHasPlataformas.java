@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 import model.Tabela;
+import model.TabelaNparaN;
 
 public class GamesHasPlataformas extends Tabela<Integer> {
 
@@ -79,16 +80,19 @@ public class GamesHasPlataformas extends Tabela<Integer> {
 	}
 
 	@Override
-	public <T extends Tabela<?>> List<List<T>> getNparaN() {
+	public ArrayList<TabelaNparaN> getTabelasNparaN() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <T extends Tabela<?>> List<T> tabelasEstrangeirasNparaN() {
+	public void setCamposTabelasNparaN(List<List<Tabela<?>>> list) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
+
+
+
 
 	
 }

@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
@@ -64,9 +65,8 @@ public abstract class Tabela<TipoPK> {
 
 	public abstract Boolean isPkSerial();
 
-	public abstract <T extends Tabela<?>> List<List<T>> getNparaN();
-	public abstract <T extends Tabela<?>> List<T> tabelasEstrangeirasNparaN();
+	public abstract ArrayList<TabelaNparaN> getTabelasNparaN();
 
-
+	public  abstract void setCamposTabelasNparaN(List<List<Tabela<?>>> list);
 
 }

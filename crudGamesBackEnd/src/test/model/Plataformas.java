@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Tabela;
+import model.TabelaNparaN;
 
 public class Plataformas extends Tabela<Integer> {
 
@@ -73,19 +74,6 @@ public class Plataformas extends Tabela<Integer> {
 		return true;
 	}
 
-	
-
-	@Override
-	public <T extends Tabela<?>> List<List<T>> getNparaN() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <T extends Tabela<?>> List<T> tabelasEstrangeirasNparaN() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public String toString() {
@@ -95,5 +83,17 @@ public class Plataformas extends Tabela<Integer> {
 		}
 		
 		return campos;
+	}
+
+	@Override
+	public ArrayList<TabelaNparaN> getTabelasNparaN() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCamposTabelasNparaN(List<List<Tabela<?>>> list) {
+		// TODO Auto-generated method stub
+		
 	}
 }

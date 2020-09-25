@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 import model.Tabela;
+import model.TabelaNparaN;
 
 public class Games extends Tabela<Integer> {
 
@@ -118,21 +119,27 @@ public class Games extends Tabela<Integer> {
 		return true;
 	}
 
-	@Override
-	public <T extends Tabela<?>> List<T> tabelasEstrangeirasNparaN() {
-
-		List<T> NparaN = new ArrayList<>();
-
-		NparaN.add((T) new GamesHasPlataformas());
-
-		return NparaN;
+	public ArrayList<TabelaNparaN> getTabelasNparaN() {
+		ArrayList<TabelaNparaN> list = new ArrayList<>();
+		TabelaNparaN muitasPlataformas = new TabelaNparaN(new GamesHasPlataformas(),this,new Plataformas());
+		
+		list.add(muitasPlataformas);
+		
+		return list;
 	}
 
-	@Override
-	public <T extends Tabela<?>> List<List<T>> getNparaN() {
-		List<List<T>> NparaN = new ArrayList<>();
-		NparaN.add((List<T>) plataformas);
-		return NparaN;
+	public void setCamposTabelasNparaN(List<List<Tabela<?>>> list) {
+		this.setPlataformas(convertListaTabelaParaPlataforma(list.get(0)));
 	}
 
+	private List<Plataformas> convertListaTabelaParaPlataforma(List<Tabela<?>> list) {
+		List<Plataformas> newList = new ArrayList<>();
+		
+		for (Tabela<?> plataformas : list) {
+			newList.add((Plataformas)plataformas);
+		}
+		
+		return newList;
+	}
+	
 }
