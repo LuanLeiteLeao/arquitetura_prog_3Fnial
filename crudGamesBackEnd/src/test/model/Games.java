@@ -7,6 +7,7 @@ import java.util.List;
 
 import model.Tabela;
 import model.TabelaNparaN;
+import util.ConversoDeLista;
 
 public class Games extends Tabela<Integer> {
 
@@ -15,6 +16,7 @@ public class Games extends Tabela<Integer> {
 	private Date dataLancamento;
 	private Boolean isJogoDoAno;
 	private List<Plataformas> plataformas;
+	private List<Generos> generos;
 
 	public List<Plataformas> getPlataformas() {
 		return plataformas;
@@ -88,7 +90,7 @@ public class Games extends Tabela<Integer> {
 	@Override
 	public List<Object> getCamposValor() {
 		List<Object> list = new ArrayList<>();
-		
+
 		list.add(getNomePk());
 		list.add(getNome());
 		list.add(getDescricao());
@@ -118,28 +120,32 @@ public class Games extends Tabela<Integer> {
 
 		return true;
 	}
-
+	
+	@Override
 	public ArrayList<TabelaNparaN> getTabelasNparaN() {
 		ArrayList<TabelaNparaN> list = new ArrayList<>();
-		TabelaNparaN muitasPlataformas = new TabelaNparaN(new GamesHasPlataformas(),this,new Plataformas());
-		
+		TabelaNparaN muitasPlataformas = new TabelaNparaN(new GamesHasPlataformas(), this, new Plataformas());
+		TabelaNparaN muitasGeneros = new TabelaNparaN(new GamesHasGeneros(), this, new Generos());
 		list.add(muitasPlataformas);
-		
+		list.add(muitasGeneros);
+
 		return list;
 	}
 
+	@Override
 	public void setCamposTabelasNparaN(List<List<Tabela<?>>> list) {
-		this.setPlataformas(convertListaTabelaParaPlataforma(list.get(0)));
+//		posso melhorar isso para ficar mais inchuto
+		this.setPlataformas(new ConversoDeLista<Tabela<?>, Plataformas>().convertLista(list.get(0)));
+		this.setGeneros(new ConversoDeLista<Tabela<?>, Generos>().convertLista(list.get(1)));
+
 	}
 
-	private List<Plataformas> convertListaTabelaParaPlataforma(List<Tabela<?>> list) {
-		List<Plataformas> newList = new ArrayList<>();
-		
-		for (Tabela<?> plataformas : list) {
-			newList.add((Plataformas)plataformas);
-		}
-		
-		return newList;
+	public List<Generos> getGeneros() {
+		return generos;
 	}
-	
+
+	public void setGeneros(List<Generos> generos) {
+		this.generos = generos;
+	}
+
 }

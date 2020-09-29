@@ -72,8 +72,6 @@ public class DAOGeneric extends DAOConexao {
 	}
 
 	public <T extends Tabela<?>> ArrayList<T> listar(T tabela) {
-//		nao é bom passar *, nao é uma boa pratica
-//		passar a lista de campos, pois aordem de campos pode mudar
 		String sqlSelect = "select "+getCamposNomeSelect(tabela) +" from " + tabela.getNomeTabela();
 		return this.select(sqlSelect, tabela);
 	}
@@ -89,6 +87,29 @@ public class DAOGeneric extends DAOConexao {
 		
 		return this.select(sqlSelect, tabelaMuitos);
 
+	}
+	
+	public <T extends Tabela<?>> void   inserirNparaN(List<T> tabelaDaRelacao,TabelaNparaN tabela) {
+//		INSERT INTO tabela (a,b,c) VALUES (1,2,3),(4,5,6);
+	String sqlInsert = "INSERT INTO "
+			+ tabela.getTabelaAux().getNomeTabela()+" "
+			+"("+ getCamposNomeSelect(tabela.getTabelaAux())+")"
+			+ " VALUES "
+			+ prepararVariosCamposNparaN(tabelaDaRelacao);
+	
+		System.out.println(sqlInsert);
+	}
+	
+
+	private <T extends Tabela<?>>  String prepararVariosCamposNparaN(List<T> tabelaDaRelacao) {
+		List<String> campos = new ArrayList();
+		
+		for (T tabela : tabelaDaRelacao) {
+//			campos.add("("+tabelaUm.getPk()+","+tabela.getPk()+")");
+			campos.add("(?, ?)");
+		}
+		
+		return String.join(",", campos);
 	}
 
 	public <T extends Tabela<?>> String atualizar(T tabela) {

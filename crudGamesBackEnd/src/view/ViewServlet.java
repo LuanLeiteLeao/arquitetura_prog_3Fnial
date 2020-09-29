@@ -21,7 +21,7 @@ public class ViewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String model = request.getParameter("model");
+		String model = request.getParameter("casoDeUso");
 		System.out.println(model);
 
 		 ICrudControler controle =  (ICrudControler) view.getCasoDeUso(model);

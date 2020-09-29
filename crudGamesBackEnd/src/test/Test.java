@@ -10,10 +10,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Date;
 
 import model.DAOGeneric;
 import model.Tabela;
+import model.TabelaNparaN;
 import test.model.Games;
 import test.model.GamesHasPlataformas;
 import test.model.Plataformas;
@@ -48,14 +50,32 @@ public class Test {
 		
 
 		
-		ArrayList<Games> lista = dao.listar(new Games());
+//		ArrayList<Games> lista = dao.listar(new Games());
+//		
+//		for (Games tabela : lista) {
+//			System.out.println(tabela.getPk()+"\n"+tabela.getPlataformas()+"\n"+tabela.getGeneros());
+//		}
+//		
 		
-		for (Games tabela : lista) {
-			System.out.println(tabela.getPk()+"\n"+tabela.getPlataformas());
-		}
+		List<Tabela<?>> plataformas = new ArrayList();
+
+		Plataformas p = new Plataformas();
+		p.setPk(1);
+		plataformas.add(p);
 		
+		Plataformas p1 = new Plataformas();
+		p1.setPk(2);
+		plataformas.add(p1);
 		
+		Plataformas p2 = new Plataformas();
+		p2.setPk(3);
+		plataformas.add(p2);
 		
+		 Games games = new Games();
+		 games.setPk(1);
+		
+		TabelaNparaN tabelaNparaN = new TabelaNparaN(new GamesHasPlataformas(), games, new Plataformas());
+		dao.inserirNparaN(plataformas, tabelaNparaN);
 		
 		
 		
