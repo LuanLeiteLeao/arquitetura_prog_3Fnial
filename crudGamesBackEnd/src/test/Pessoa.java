@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import model.DAOGeneric;
 import model.Tabela;
 import model.TabelaNparaN;
+import persistencia.DAO;
 
 public class Pessoa extends Tabela<Integer> {
 
@@ -105,7 +105,7 @@ public class Pessoa extends Tabela<Integer> {
 	
 	public static void main(String[] args) {
 		Pessoa pes = new Pessoa();
-		DAOGeneric dao = new DAOGeneric();
+		DAO dao = new DAO();
 //		
 //		Pessoa p = new Pessoa();
 //		

@@ -124,6 +124,7 @@ public class Games extends Tabela<Integer> {
 	@Override
 	public ArrayList<TabelaNparaN> getTabelasNparaN() {
 		ArrayList<TabelaNparaN> list = new ArrayList<>();
+		//rever se precisa mesmo do this
 		TabelaNparaN muitasPlataformas = new TabelaNparaN(new GamesHasPlataformas(), this, new Plataformas());
 		TabelaNparaN muitasGeneros = new TabelaNparaN(new GamesHasGeneros(), this, new Generos());
 		list.add(muitasPlataformas);

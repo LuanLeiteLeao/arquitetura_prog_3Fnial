@@ -13,9 +13,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Date;
 
-import model.DAOGeneric;
 import model.Tabela;
 import model.TabelaNparaN;
+import persistencia.DAO;
 import test.model.Games;
 import test.model.GamesHasPlataformas;
 import test.model.Plataformas;
@@ -25,7 +25,7 @@ public class Test {
 	public static void main(String[] args) {
 		Test t = new Test();
 		Plataformas plataforma = new Plataformas();
-		DAOGeneric dao = new DAOGeneric();
+		DAO dao = new DAO();
 
 //		t.inserirPlataforma(plataforma, dao);
 //		t.listarPlataforma(plataforma, dao);
@@ -81,7 +81,7 @@ public class Test {
 		
 	}
 
-	private void listarPlataforma(Plataformas plataforma, DAOGeneric dao) {
+	private void listarPlataforma(Plataformas plataforma, DAO dao) {
 		ArrayList<Plataformas> list = dao.listar(plataforma);
 		for (Plataformas plataformas : list) {
 			System.out.println(plataformas.getPk() + "  " + plataformas.getNome() + "  " + plataformas.getModificacao()
@@ -89,7 +89,7 @@ public class Test {
 		}
 	}
 
-	private void inserirPlataforma(Plataformas plataforma, DAOGeneric dao) {
+	private void inserirPlataforma(Plataformas plataforma, DAO dao) {
 		plataforma.setNome("Xbox");
 		plataforma.setCriacao(plataforma.dataHoje());
 		plataforma.setModificacao(plataforma.dataHoje());

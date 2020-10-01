@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.DAOGeneric;
+import persistencia.DAO;
 import test.model.Games;
 import test.model.Generos;
 import test.model.Plataformas;
@@ -12,7 +12,7 @@ import test.model.Plataformas;
 public class GamesTest {
 	public static void main(String[] args) {
 		Games g = new Games();
-		DAOGeneric dao = new DAOGeneric();
+		DAO dao = new DAO();
 			
 		List<Plataformas> pla = new ArrayList<>();
 		Plataformas aux = new Plataformas();
