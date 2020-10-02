@@ -118,13 +118,13 @@ public class DAO extends Conexao {
 		return this.select(sqlSelect, tabela);
 	}
 
-//	kaleb fazer
-	public <T extends Tabela<?>> T getTabelByPk(T tabela) {
-		String sqlSelect = "select " + getCamposNomeSelect(tabela) + " from " + tabela.getNomeTabela();
+	public <T extends Tabela<TipoPK>, TipoPK> T getTabelByPk(TipoPK pk, T tabela) {
+		String sqlSelect = "select " + getCamposNomeSelect(tabela) + " from " + tabela.getNomeTabela() + " where "
+				+ tabela.getNomePk() + " = " + pk;
+		System.out.println(sqlSelect);
 		return this.select(sqlSelect, tabela).get(0);
 	}
-	
-	
+
 	/***
 	 * O metodo cria uma string contendo informacoes de tres tabelas especificas
 	 * para a execucao de um select com relacao muitos para muitos no banco de dados
@@ -188,10 +188,10 @@ public class DAO extends Conexao {
 	}
 
 	/***
-	 * O metodo valida a pk da tabela e se for nulo retorna uma mensagem, se n�o for
-	 * nulo ele cria uma string contendo informacoes para a execucao de um update no
-	 * banco de dados. Em seguida executa o update, um try catch verifica o sucesso
-	 * da execucao apresentando uma mensagem de aviso.
+	 * O metodo valida a pk da tabela e se for nulo retorna uma mensagem, se n�o
+	 * for nulo ele cria uma string contendo informacoes para a execucao de um
+	 * update no banco de dados. Em seguida executa o update, um try catch verifica
+	 * o sucesso da execucao apresentando uma mensagem de aviso.
 	 * 
 	 * @param <T>
 	 * @param tabela
