@@ -33,7 +33,7 @@ public abstract class ControleGeric<T extends Tabela<TipoPK>, TipoPK>
 	@Override
 	public <T extends Tabela<?>> ArrayList<T> listar() {
 
-		return this.persistencias.listar(this.getNovoObjeto());
+		return this.persistencias.listar(this.getNovoObjetoModelo());
 	}
 	/***
 	 * Remove a tabela recebida.
@@ -63,10 +63,7 @@ public abstract class ControleGeric<T extends Tabela<TipoPK>, TipoPK>
 	 * ?
 	 * @return
 	 */
-	public Tabela getNovoObjeto() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract Tabela getNovoObjetoModelo();
 	/***
 	 * ?
 	 */

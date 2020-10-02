@@ -20,7 +20,7 @@ public class ManterGame extends ControleGeric<Pessoa, Integer> {
 	 * Cria um novo objeto do tipo Games.
 	 */
 	@Override
-	public Tabela getNovoObjeto() {
+	public Tabela getNovoObjetoModelo() {
 
 		return new Games();
 	}
