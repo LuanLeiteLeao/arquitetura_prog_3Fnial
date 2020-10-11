@@ -118,10 +118,21 @@ public class DAO extends Conexao {
 		return this.select(sqlSelect, tabela);
 	}
 
+	/***
+	 * O metodo recebe uma pk e uma tabela, em seguida utiliza as informacoes da
+	 * tabela e da pk para criar um select. Em seguida executa o metodo Select()
+	 * retorna a linha em que a chave primaria for igual a pk do parametro.
+	 * 
+	 * 
+	 * @param <T>
+	 * @param <TipoPK>
+	 * @param pk
+	 * @param tabela
+	 * @return
+	 */
 	public <T extends Tabela<TipoPK>, TipoPK> T getTabelByPk(TipoPK pk, T tabela) {
 		String sqlSelect = "select " + getCamposNomeSelect(tabela) + " from " + tabela.getNomeTabela() + " where "
 				+ tabela.getNomePk() + " = " + pk;
-		System.out.println(sqlSelect);
 		return this.select(sqlSelect, tabela).get(0);
 	}
 
@@ -160,13 +171,27 @@ public class DAO extends Conexao {
 	 * @param tabelaDaRelacao
 	 * @param tabela
 	 */
-	public <T extends Tabela<?>> void inserirNparaN(List<T> tabelaDaRelacao, TabelaNparaN tabela) {
-//		INSERT INTO tabela (a,b,c) VALUES (1,2,3),(4,5,6);
-		String sqlInsert = "INSERT INTO " + tabela.getTabelaAux().getNomeTabela() + " " + "("
-				+ getCamposNomeSelect(tabela.getTabelaAux()) + ")" + " VALUES "
-				+ prepararVariosCamposNparaN(tabelaDaRelacao);
 
-		System.out.println(sqlInsert);
+	public <T extends Tabela<?>> void inserirNparaN(T tabelaAuxiliar, T tabelaMuitos) {
+//		INSERT INTO tabela (a,b,c) VALUES (1,2,3),(4,5,6);
+		String sqlInsertAux = "INSERT INTO " + tabelaAuxiliar + "(" + getCamposNomeSelect(tabelaAuxiliar) + ")"
+				+ " VALUES " + prepararValoresInsert(tabelaAuxiliar);
+		String sqlInserttabelaMuitos = "INSERT INTO " + tabelaMuitos + "(" + getCamposNomeSelect(tabelaMuitos) + ")"
+				+ " VALUES " + prepararValoresInsert(tabelaMuitos);
+		
+		try {
+			PreparedStatement stmt = (PreparedStatement) this.con.prepareStatement(sqlInsertAux);
+			stmt.execute();
+			stmt = (PreparedStatement) this.con.prepareStatement(sqlInserttabelaMuitos);
+			stmt.execute();
+			
+			System.out.println("n para n inserido com sucesso");
+
+		} catch (SQLException e) {
+
+			System.out.println("n para n n�o foi inserido");
+		}
+		
 	}
 
 	/***
@@ -188,10 +213,10 @@ public class DAO extends Conexao {
 	}
 
 	/***
-	 * O metodo valida a pk da tabela e se for nulo retorna uma mensagem, se n�o
-	 * for nulo ele cria uma string contendo informacoes para a execucao de um
-	 * update no banco de dados. Em seguida executa o update, um try catch verifica
-	 * o sucesso da execucao apresentando uma mensagem de aviso.
+	 * O metodo valida a pk da tabela e se for nulo retorna uma mensagem, se nao for
+	 * nulo ele cria uma string contendo informacoes para a execucao de um update no
+	 * banco de dados. Em seguida executa o update, um try catch verifica o sucesso
+	 * da execucao apresentando uma mensagem de aviso.
 	 * 
 	 * @param <T>
 	 * @param tabela
@@ -226,7 +251,7 @@ public class DAO extends Conexao {
 	/***
 	 * O metodo utiliza a tabela recebida para criar uma string com os nomes de
 	 * campos, se o numero de valores dos campos for diferente do numero de nomes
-	 * dos campos � retornado uma mensagem de falha na preparacao.
+	 * dos campos e retornado uma mensagem de falha na preparacao.
 	 * 
 	 * @param <T>
 	 * @param tabela
@@ -354,6 +379,16 @@ public class DAO extends Conexao {
 		return formato;
 	}
 
+	public <T extends Tabela<?>> String prepararValoresInsert(T tabela) {
+		String valores = "(";
+
+		for (Object campo : tabela.getCamposValor()) {
+			valores += campo + ",";
+		}
+		valores = valores.substring(0, valores.length() - 1) + ")";
+		return valores;
+	}
+
 	/***
 	 * O metodo utiliza a lista recebida para criar uma string contendo os nomes e
 	 * valores dos campos, em seguida executa um insert no no banco de dados. O try
@@ -364,26 +399,42 @@ public class DAO extends Conexao {
 	 */
 
 	public <T extends Tabela<?>> void inserir(T tabela) {
-		String sql = "insert into " + tabela.getNomeTabela() + " " + prepararCamposNome(tabela) + " values"
-				+ prepararCamposValor(tabela);
+		String sqlInsert = "INSERT INTO " + tabela.getNomeTabela() + "(" + getCamposNomeSelect(tabela) + ")"
+				+ " VALUES " + prepararValoresInsert(tabela);
+		System.out.println(sqlInsert);
+		inserirSql(sqlInsert, tabela);
+	}
 
-		System.out.println(sql);
+	/***
+	 * 
+	 * @param <T>
+	 * @param sqlInsert
+	 */
+	private <T extends Tabela<?>> void inserirSql(String sqlInsert, T tabela) {
+
+		PreparedStatement stmt;
 
 		try {
-			// prepared statement para inserção
-			PreparedStatement stmt = (PreparedStatement) this.con.prepareStatement(sql);
+			stmt = (PreparedStatement) this.con.prepareStatement(sqlInsert);
 
-			PrepararStatementCampoValor(stmt, tabela);
+			// executa um select
+			ResultSet rs = stmt.executeQuery();
+			System.out.println(rs);
 
-			// executa
-			stmt.execute();
+			// itera no ResultSet
 
-			System.out.println("Salvo Com Sucesso");
+			ArrayList<TabelaNparaN> NparaN = tabela.getTabelasNparaN();
+			if (NparaN != null) {
+
+				for (TabelaNparaN aux : NparaN) {
+					inserirNparaN(aux.getTabelaAux(), aux.getTabelaMuitos());
+				}
+
+			}
 
 		} catch (SQLException e) {
-			System.out.println("Deu Ruim");
-			System.out.println(e.getMessage());
-
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}

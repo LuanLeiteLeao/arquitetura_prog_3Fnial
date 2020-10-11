@@ -57,25 +57,13 @@ public class Test {
 //		}
 //		
 		
-		List<Tabela<?>> plataformas = new ArrayList();
-
 		Plataformas p = new Plataformas();
-		p.setPk(1);
-		plataformas.add(p);
+		p.setPk(4);
+		p.setNome("Xbox");
+		p.setCriacao(p.dataHoje());
+		p.setModificacao(p.dataHoje());
 		
-		Plataformas p1 = new Plataformas();
-		p1.setPk(2);
-		plataformas.add(p1);
-		
-		Plataformas p2 = new Plataformas();
-		p2.setPk(3);
-		plataformas.add(p2);
-		
-		 Games games = new Games();
-		 games.setPk(1);
-		
-		TabelaNparaN tabelaNparaN = new TabelaNparaN(new GamesHasPlataformas(), games, new Plataformas());
-		dao.inserirNparaN(plataformas, tabelaNparaN);
+		dao.inserir(p);
 		
 		
 		
@@ -93,7 +81,6 @@ public class Test {
 		plataforma.setNome("Xbox");
 		plataforma.setCriacao(plataforma.dataHoje());
 		plataforma.setModificacao(plataforma.dataHoje());
-
 		dao.inserir(plataforma);
 	}
 

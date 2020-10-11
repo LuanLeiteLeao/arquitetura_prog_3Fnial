@@ -14,7 +14,7 @@ public class Games extends Tabela<Integer> {
 	private String nome;
 	private String descricao;
 	private Date dataLancamento;
-	private Boolean isJogoDoAno;
+	private Integer isJogoDoAno;
 	private List<Plataformas> plataformas;
 	private List<Generos> generos;
 
@@ -50,11 +50,11 @@ public class Games extends Tabela<Integer> {
 		this.dataLancamento = data_lancamento;
 	}
 
-	public Boolean getIsJogoDoAno() {
+	public Integer getIsJogoDoAno() {
 		return isJogoDoAno;
 	}
 
-	public void setIsJogoDoAno(Boolean is_jogo_do_ano) {
+	public void setIsJogoDoAno(Integer is_jogo_do_ano) {
 		this.isJogoDoAno = is_jogo_do_ano;
 	}
 
@@ -70,7 +70,7 @@ public class Games extends Tabela<Integer> {
 		setNome((String) list.get(1));
 		setDescricao((String) list.get(2));
 		setDataLancamento((Date) list.get(3));
-		setIsJogoDoAno((Boolean) list.get(4));
+		setIsJogoDoAno((Integer) list.get(4));
 		setCriacao((Date) list.get(5));
 		setModificacao((Date) list.get(6));
 	}
