@@ -3,7 +3,12 @@ package persistencia;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -172,26 +177,13 @@ public class DAO extends Conexao {
 	 * @param tabela
 	 */
 
-	public <T extends Tabela<?>> void inserirNparaN(T tabelaAuxiliar, T tabelaMuitos) {
+	public <T extends Tabela<?>> void inserirNparaN(T tabelaUm, T tabelaAuxiliar, T tabelaMuitos) {
 //		INSERT INTO tabela (a,b,c) VALUES (1,2,3),(4,5,6);
-		String sqlInsertAux = "INSERT INTO " + tabelaAuxiliar + "(" + getCamposNomeSelect(tabelaAuxiliar) + ")"
-				+ " VALUES " + prepararValoresInsert(tabelaAuxiliar);
-		String sqlInserttabelaMuitos = "INSERT INTO " + tabelaMuitos + "(" + getCamposNomeSelect(tabelaMuitos) + ")"
-				+ " VALUES " + prepararValoresInsert(tabelaMuitos);
-		
-		try {
-			PreparedStatement stmt = (PreparedStatement) this.con.prepareStatement(sqlInsertAux);
-			stmt.execute();
-			stmt = (PreparedStatement) this.con.prepareStatement(sqlInserttabelaMuitos);
-			stmt.execute();
-			
-			System.out.println("n para n inserido com sucesso");
+		String sqlInsert = "INSERT INTO " + tabelaAuxiliar.getNomeTabela() + "(" + getCamposNomeSelect(tabelaAuxiliar)
+				+ ")" + " VALUES " + "(" + tabelaUm.getPk() + "," + tabelaMuitos.getPk() + ")";
+		System.out.println(sqlInsert);
+		this.inserirSql(sqlInsert, tabelaAuxiliar);
 
-		} catch (SQLException e) {
-
-			System.out.println("n para n não foi inserido");
-		}
-		
 	}
 
 	/***
@@ -383,10 +375,16 @@ public class DAO extends Conexao {
 		String valores = "(";
 
 		for (Object campo : tabela.getCamposValor()) {
-			valores += campo + ",";
+			if (campo instanceof Date || campo instanceof String) {
+				valores += "'" + campo + "'";
+			} else {
+				valores += campo;
+			}
+			valores += ",";
 		}
 		valores = valores.substring(0, valores.length() - 1) + ")";
 		return valores;
+
 	}
 
 	/***
@@ -427,7 +425,7 @@ public class DAO extends Conexao {
 			if (NparaN != null) {
 
 				for (TabelaNparaN aux : NparaN) {
-					inserirNparaN(aux.getTabelaAux(), aux.getTabelaMuitos());
+					inserirNparaN(aux.getTabelaUm(), aux.getTabelaAux(), aux.getTabelaMuitos());
 				}
 
 			}

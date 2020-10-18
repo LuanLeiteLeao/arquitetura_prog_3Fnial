@@ -60,7 +60,7 @@ public class Plataformas extends Tabela<Integer> {
 	@Override
 	public List<String> getCamposNome() {
 		List<String> list = new ArrayList<>();
-		list.add( getNomeTabela()+"."+getNomePk());
+		list.add(getNomePk());
 		list.add("nome");
 		list.add("criacao");
 		list.add("modificacao");

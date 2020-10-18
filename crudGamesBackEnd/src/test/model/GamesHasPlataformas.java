@@ -67,7 +67,7 @@ public class GamesHasPlataformas extends Tabela<Integer> {
 	public List<String> getCamposNome() {
 		List<String> list = new ArrayList<>();
 
-		list.add("games_id");
+		list.add(getNomePk());
 		list.add("plataformas_id");
 
 		return list;

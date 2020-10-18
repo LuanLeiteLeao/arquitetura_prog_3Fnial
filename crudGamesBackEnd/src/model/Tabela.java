@@ -1,5 +1,6 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -34,10 +35,10 @@ public abstract class Tabela<TipoPK> {
 	/***
 	 * Define valor do atributo criacao.
 	 * 
-	 * @param criacao
+	 * @param simpleDateFormat
 	 */
-	public void setCriacao(Date criacao) {
-		this.criacao = criacao;
+	public void setCriacao(Date simpleDateFormat) {
+		this.criacao = simpleDateFormat;
 	}
 
 	/***

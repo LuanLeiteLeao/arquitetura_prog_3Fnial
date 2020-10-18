@@ -1,5 +1,6 @@
 package test;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Date;
@@ -23,7 +25,8 @@ import test.model.Plataformas;
 public class Test {
 
 	public static void main(String[] args) {
-		Test t = new Test();
+		Games game = new Games();
+		GamesHasPlataformas gamePlataforma = new GamesHasPlataformas();
 		Plataformas plataforma = new Plataformas();
 		DAO dao = new DAO();
 
@@ -35,9 +38,7 @@ public class Test {
 // for (GamesHasPlataformas gamesHasPlataformas : list) {
 //	System.out.println(gamesHasPlataformas.getGamesId()+" , "+gamesHasPlataformas.getPlataformasId());
 //}
-		
-		
- 
+
 //		 Games g = new Games();
 //		 g.setPk(2);
 //		
@@ -46,27 +47,29 @@ public class Test {
 //		for (Tabela<Integer> tabela : lista) {
 //			System.out.println(tabela.toString());
 //		}
-		
-		
 
-		
 //		ArrayList<Games> lista = dao.listar(new Games());
 //		
 //		for (Games tabela : lista) {
 //			System.out.println(tabela.getPk()+"\n"+tabela.getPlataformas()+"\n"+tabela.getGeneros());
 //		}
 //		
+		game.setPk(1);
+		plataforma.setPk(1);
+
+		List<List<Tabela<?>>> matrix = new ArrayList<>();
+		List<Tabela<?>> npn = (List<Tabela<?>>) new TabelaNparaN(game,gamePlataforma,plataforma);
+		matrix.add(npn);
+		game.setCamposTabelasNparaN(matrix);
 		
 		Plataformas p = new Plataformas();
 		p.setPk(4);
 		p.setNome("Xbox");
 		p.setCriacao(p.dataHoje());
 		p.setModificacao(p.dataHoje());
-		
+
 		dao.inserir(p);
-		
-		
-		
+
 	}
 
 	private void listarPlataforma(Plataformas plataforma, DAO dao) {

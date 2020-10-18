@@ -104,7 +104,7 @@ public class Games extends Tabela<Integer> {
 	@Override
 	public List<String> getCamposNome() {
 		List<String> list = new ArrayList<>();
-		list.add("games_id");
+		list.add(getNomePk());
 		list.add("nome");
 		list.add("descricao");
 		list.add("data_lancamento");
@@ -134,7 +134,7 @@ public class Games extends Tabela<Integer> {
 	}
 
 	@Override
-	public void setCamposTabelasNparaN(List<List<Tabela<?>>> list) {
+	public  void setCamposTabelasNparaN(List<List<Tabela<?>>> list) {
 //		posso melhorar isso para ficar mais inchuto
 		this.setPlataformas(new ConversoDeLista<Tabela<?>, Plataformas>().convertLista(list.get(0)));
 		this.setGeneros(new ConversoDeLista<Tabela<?>, Generos>().convertLista(list.get(1)));
